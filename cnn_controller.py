@@ -8,6 +8,7 @@ from datetime import datetime
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.data import TensorDataset, DataLoader, random_split
 
 from utils import load_data, plot_loss_curve, EarlyStopCriterion
@@ -20,6 +21,8 @@ WEIGHT_DECAY = 1e-5
 NUM_EPOCHS = 100
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 RESULT_FOLDER = "cnn_%Y_%m_%d_%H_%M_%S"
+INPUT_HEIGHT = 144
+INPUT_WIDTH = 224
 
 # CNN model running on the car
 class CNN(nn.Module):
@@ -70,6 +73,14 @@ class CNN(nn.Module):
     def forward(self, x):
         # Normalize to [-1,1] as in NVIDIA paper
         x = x.permute(0,3,1,2).float()
+        # Resize collected images to the architecture's expected input size.
+        if x.shape[-2:] != (INPUT_HEIGHT, INPUT_WIDTH):
+            x = F.interpolate(
+                x,
+                size=(INPUT_HEIGHT, INPUT_WIDTH),
+                mode='bilinear',
+                align_corners=False
+            )
         x = x / 255.0
         x = x * 2.0 - 1.0
 

@@ -5,3 +5,12 @@ misc/
 .vscode/
 __pycache__/
 configs/
+.venv/
+images/
+*.zip
+runs/
+__pycache__/
+.ipynb_checkpoints/
+*.pt
+*.pth
+*.npy

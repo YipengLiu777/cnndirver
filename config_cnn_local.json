@@ -1,0 +1,14 @@
+{
+    "train": {
+        "batch_size": 8,
+        "lr": 0.0001,
+        "nepochs": 200
+    },
+    "load_data": {
+        "collected": "images"
+    },
+    "training_data": {
+        "collected": [0, null, 1]
+    },
+    "result_folder": "runs/cnn/%Y_%m_%d_%H_%M_%S"
+}
